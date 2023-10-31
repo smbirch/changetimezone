@@ -35,6 +35,8 @@ $submitButton.Location = New-Object System.Drawing.Point(250, 70)
 $submitButton.Text = "Submit"
 $submitButton.Add_Click({
     $selectedTimeZone = $timeZonecomboBox.SelectedItem
+    $currentTimeZone = (Get-TimeZone).Id #resets TZ in the case that it was already changed in this session
+
 
     if (-not ($timeZoneArray -contains $selectedTimeZone)) {
         [System.Windows.Forms.MessageBox]::Show("You must pick something")
@@ -46,7 +48,7 @@ $submitButton.Add_Click({
         # change time zone here!
         Set-TimeZone -Name "$selectedTimeZone"
         $currentTZLabel.Text = "Current System Time Zone: $selectedTimeZone"
-
+        # TODO: Add a way to disable to "automatically set time zone" setting in windows
         [System.Windows.Forms.MessageBox]::Show("Time zone changed to $selectedTimeZone")
     }
 
