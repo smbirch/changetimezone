@@ -1,4 +1,3 @@
-# Load the Windows Forms assembly
 Add-Type -AssemblyName System.Windows.Forms
 
 # Create a form
@@ -36,7 +35,7 @@ $submitButton.Location = New-Object System.Drawing.Point(250, 70)
 $submitButton.Text = "Submit"
 $submitButton.Add_Click({
     $selectedTimeZone = $timeZonecomboBox.SelectedItem
-    # Write-Host "$selectedTimeZone, $currentTimeZone"
+
     if (-not ($timeZoneArray -contains $selectedTimeZone)) {
         [System.Windows.Forms.MessageBox]::Show("You must pick something")
 
@@ -44,7 +43,10 @@ $submitButton.Add_Click({
         [System.Windows.Forms.MessageBox]::Show("Selection is the same as your current time zone - No changes were made")
         
     } else {
-        # Call funtion to change time zone here!
+        # change time zone here!
+        Set-TimeZone -Name "$selectedTimeZone"
+        $currentTZLabel.Text = "Current System Time Zone: $selectedTimeZone"
+
         [System.Windows.Forms.MessageBox]::Show("Time zone changed to $selectedTimeZone")
     }
 
@@ -54,6 +56,3 @@ $form.Controls.Add($submitButton)
 # Display the form
 $form.ShowDialog()
 
-#todo
-# If selected timezone is valid then disable auto time zone select and change the time zone
-# display confirmation of this change
